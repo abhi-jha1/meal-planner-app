@@ -4,7 +4,7 @@ const { CORS_ERROR } = require('../constants/info-constants');
 // make allowed origins dynamic later
 const allowedOrigins = [
   'http://localhost:3000', // for task ui
-  'http://localhost:3130', // for swagger api
+  'http://localhost:3010', // for swagger api
 ];
 
 const HandleCors = cors({

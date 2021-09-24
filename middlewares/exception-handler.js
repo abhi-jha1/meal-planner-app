@@ -1,3 +1,4 @@
+const { get, pick } = require('lodash');
 const HttpStatus = require('http-status-codes');
 const Config = require('../utilities/config');
 const cmn = require('../utilities/common');
@@ -23,16 +24,17 @@ const ExceptionHandlerMiddleware = (err, req, res, next) => {
 
   const additionalData = {
     code: err.code,
-    httpStatus: err.status || HttpStatus.INTERNAL_SERVER_ERROR,
+    httpStatus: err.status || HttpStatus.StatusCodes.INTERNAL_SERVER_ERROR,
     requestUrl: req.originalUrl,
-    message: err.status ? err.message : 'internal server error',
+    payload: pick(req, ['params', 'query', 'body']),
+    message:  get(err, 'errors.0.message') || get(err, 'message') || 'internal server error',
   };
 
   // send stack trace only when not in production
   const notProduction = Config.get('API_ENV') !== API_ENV.LIVE;
   const formattedResponse = {
     ...additionalData,
-    ...(notProduction && { stack: `Task Management API – ${JSON.stringify(err, cmn.replaceErrors)}` }),
+    ...(notProduction && { stack: `Meal Planner API – ${JSON.stringify(err, cmn.replaceErrors)}` }),
   };
 
   // log error

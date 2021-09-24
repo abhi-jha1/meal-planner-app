@@ -10,7 +10,7 @@ module.exports = function (sequelize, DataTypes) {
         key: 'id'
     }
     },
-    meal_date: { type: DataTypes.DATE, allowNull: false },
+    meal_date: { type: DataTypes.DATEONLY, allowNull: false },
     text: { type: DataTypes.STRING, allowNull: false },
     calories: { type: DataTypes.INTEGER, allowNull: false }
   }, {

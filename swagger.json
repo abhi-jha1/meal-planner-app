@@ -6,6 +6,34 @@
   },
   "basePath": "/api",
   "schemes": ["http", "https"],
+  "securityDefinitions": {
+    "AccessToken": { "type": "apiKey", "in": "header", "name": "Authorization" }
+  },
+  "definitions": {
+    "User": {
+      "required": ["type"],
+      "properties": {
+        "email": { "type": "string", "example": "user@gmail.com", "required": true },
+        "username": { "type": "string", "example": "Harry", "required": true },
+        "password": { "type": "string", "example": "password", "required": true }
+      }
+    },
+    "Login": {
+      "required": ["type"],
+      "properties": {
+        "email": { "type": "string", "example": "user@gmail.com", "required": true },
+        "password": { "type": "string", "example": "password", "required": true }
+      }
+    },
+    "Meal": {
+      "required": ["type"],
+      "properties": {
+        "meal_date": { "type": "date", "example": "2020-08-08T00:00:00.000Z", "required": true },
+        "calories": { "type": "number", "example": 30, "required": true },
+        "text": { "type": "string", "example": "notes for meal", "required": true }
+      }
+    }
+  },
   "paths": {
     "/health": {
       "get": {
@@ -14,6 +42,315 @@
         "responses": {
           "200": {
             "description": "server health"
+          }
+        }
+      }
+    },
+    "/signup": {
+      "post": {
+        "tags": ["AUTH"],
+        "summary": "sign-up as a user",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "payload to sign up a user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "500": {
+            "description": "internal server error",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["AUTH"],
+        "summary": "login",
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "payload to login a user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Login"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "500": {
+            "description": "internal server error",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/meals": {
+      "get": {
+        "tags": ["MEAL"],
+        "summary": "get meals list",
+        "security": [{
+          "AccessToken": []
+        }],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "text",
+            "description": "text to search for",
+            "required": false,
+            "schema": { "type": "string", "example": "oats" }
+          },
+          {
+            "in": "query",
+            "name": "skip",
+            "description": "number of records to skip (index starts at 0)",
+            "required": false,
+            "schema": { "type": "number", "example": 0 }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "description": "number of records to limit",
+            "required": false,
+            "schema": { "type": "number", "example": 10 }
+          },
+          {
+            "in": "query",
+            "name": "startDate",
+            "description": "startDate for meals",
+            "required": false,
+            "type": "date",
+            "example": "2020-08-08"
+          },
+          {
+            "in": "query",
+            "name": "endDate",
+            "description": "endDate for meals",
+            "required": false,
+            "type": "date",
+            "example": "2020-08-10"
+          },
+          {
+            "in": "query",
+            "name": "sortOn",
+            "description": "data field to sort on",
+            "required": false,
+            "schema": { "type": "string", "example": "createdAt" }
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "description": "asc or desc",
+            "required": false,
+            "type": "string",
+            "example": "asc",
+            "enum": ["ASC", "DESC"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "un-authorized",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "500": {
+            "description": "internal server error",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["MEAL"],
+        "summary": "create a meal",
+        "security": [{
+          "AccessToken": []
+        }],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "payload to create a meal",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Meal"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "un-authorized",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "500": {
+            "description": "internal server error",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      }
+    },
+    "/meal/{id}": {
+      "put": {
+        "tags": ["MEAL"],
+        "summary": "update a meal",
+        "security": [{
+          "AccessToken": []
+        }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "meal id to patch",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "payload to update a meal",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Meal"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "success",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "un-authorized",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "500": {
+            "description": "internal server error",
+            "schema": {
+              "type": "object"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["MEAL"],
+        "summary": "delete a meal",
+        "security": [{
+          "AccessToken": []
+        }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "description": "meal id to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "success",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "401": {
+            "description": "un-authorized",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "403": {
+            "description": "not allowed",
+            "schema": {
+              "type": "object"
+            }
+          },
+          "500": {
+            "description": "internal server error",
+            "schema": {
+              "type": "object"
+            }
           }
         }
       }

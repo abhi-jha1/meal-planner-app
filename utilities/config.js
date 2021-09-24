@@ -3,7 +3,7 @@ const loadedConfig = require('../config/app.config.json');
 
 class config {
   /**
-   * Read the configuration from the config file, checks in env variable first
+   * Read the configuration from the app config file, checks in env variable first
    *
    * @example  config.get('JWT_SECRET_KEY', 'jwt_secret_key');
    *

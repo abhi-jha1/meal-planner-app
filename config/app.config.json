@@ -1,1 +1,9 @@
-{}
+{
+  "NODE_PORT": "3010",
+  "API_ENV": "production",
+  "PROTOCOL": "http",
+  "ACCESS_TOKEN_SECRET": "ACCESS_TOKEN_SECRET",
+  "ACCESS_TOKEN_VALIDITY": "3d",
+  "TOKEN_ISSUER": "meal-planner.com",
+  "BCRYPT_SALT_FACTOR": 8
+}

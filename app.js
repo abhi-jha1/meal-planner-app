@@ -1,5 +1,5 @@
+require('express-async-errors');
 const express = require('express');
-const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
 
 // swagger
@@ -7,8 +7,8 @@ const swaggerDocument = require('./swagger.json');
 
 // routes
 const healthRoutes = require('./module/health/health.route');
-// const authRoutes = require('./module/auth/auth.route');
-// const mealRoutes = require('./module/meal/meal.route');
+const authRoutes = require('./module/auth/auth.route');
+const mealRoutes = require('./module/meal/meal.route');
 
 // middle-wares
 const HandleCors = require('./middlewares/handle-cors');
@@ -30,8 +30,8 @@ app
   .use(CompressResponseMiddleware)
   .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument)) // swagger ui
   .use('/api', healthRoutes)
-  // .use('/api', authRoutes)
-  // .use('/api', mealRoutes)
+  .use('/api', authRoutes)
+  .use('/api', mealRoutes)
   .use(ExceptionHandlerMiddleware)
   .use(RouteNotFoundMiddleware); // 404 route not found lastly
 
