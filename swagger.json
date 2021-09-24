@@ -1,0 +1,22 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Meal Planner System"
+  },
+  "basePath": "/api",
+  "schemes": ["http", "https"],
+  "paths": {
+    "/health": {
+      "get": {
+        "tags": ["HEALTH"],
+        "summary": "check health of the server",
+        "responses": {
+          "200": {
+            "description": "server health"
+          }
+        }
+      }
+    }
+  }
+}
