@@ -1,9 +1,10 @@
 require('express-async-errors');
 const express = require('express');
+const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 
 // swagger
-const swaggerDocument = require('./swagger.json');
+const swaggerDocument = require('../swagger.json');
 
 // routes
 const healthRoutes = require('./module/health/health.route');
@@ -26,6 +27,7 @@ app
   .use(Morgan) // for logging
   .use(express.json())
   .use(StatusMonitor)
+  .use(express.static(path.join(__dirname, '../build')))
   .use('/api/', ApiRateLimiter)
   .use(CompressResponseMiddleware)
   .use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument)) // swagger ui
@@ -33,6 +35,9 @@ app
   .use('/api', authRoutes)
   .use('/api', mealRoutes)
   .use(ExceptionHandlerMiddleware)
+  .get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+  })
   .use(RouteNotFoundMiddleware); // 404 route not found lastly
 
 module.exports = app;
