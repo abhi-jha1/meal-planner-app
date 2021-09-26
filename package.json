@@ -4,9 +4,10 @@
   "description": "simple authenticated meal planner app",
   "main": "index.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start:client": "react-scripts start",
+    "start:server": "nodemon server/index.js",
     "build": "react-scripts build",
-    "server": "npm run build && node server/index.js"
+    "start": "npm run build && node server/index.js"
   },
   "author": "Abhishek Jha",
   "license": "ISC",

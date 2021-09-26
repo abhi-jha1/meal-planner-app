@@ -38,7 +38,7 @@ const validatePassword = async (email, password) => {
  * @returns {User}
  */
 const getUser = async (id) => {
-  return User.findOne({ where: { id } });
+  return User.findOne({ where: { id }, raw: true });
 };
 
 module.exports = {

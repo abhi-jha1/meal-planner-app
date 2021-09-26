@@ -48,7 +48,7 @@ const addMeal = async ({ id }, meal) => {
  * @param data
  * @returns {Promise<document>}
  */
-const updateMeal = async (user, id, meal) => {
+const updateMeal = async (user, { id }, meal) => {
   const exists = await Meal.findOne({ where: { user_id: user.id, id }, raw: true });
   if (!exists) {
     return createError.BadRequest('meal not found');
@@ -66,7 +66,7 @@ const updateMeal = async (user, id, meal) => {
  * @param data
  * @returns {Promise<document>}
  */
-const deleteMeal = async (user, id) => {
+const deleteMeal = async (user, { id }) => {
   const exists = await Meal.findOne({ where: { user_id: user.id, id }, raw: true });
   if (!exists) {
     return createError.BadRequest('meal not found');

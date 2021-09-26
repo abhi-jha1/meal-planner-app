@@ -9,39 +9,39 @@ import Button from "react-bootstrap/Button";
 export default function () {
   const [data, setData] = React.useState([]);
   const [loggedOut, setLoggedOut] = React.useState(false);
-  const [addEditModal,setAddEditModal] = React.useState(false);
-  const [value,setValue] = React.useState({})
+  const [addEditModal, setAddEditModal] = React.useState(false);
+  const [value, setValue] = React.useState({})
 
-  
 
- 
-  const edit = (cell,row) => {
+
+
+  const edit = (cell, row) => {
     return (
       <div>
-      <Button
-      style = {{marginRight:10}}
-        onClick={() => {
-          console.log(row,'row')
-          setValue({value:'Edit',calories:row.calories,text:row.text,id:row.user_id})
-          setAddEditModal(true)
-        }}
-      >
-        Edit
-      </Button>
+        <Button
+          style={{ marginRight: 10 }}
+          onClick={() => {
+            console.log(row, 'row')
+            setValue({ value: 'Edit', calories: row.calories, text: row.text, id: row.id })
+            setAddEditModal(true)
+          }}
+        >
+          Edit
+        </Button>
 
-      <Button
-        onClick={() => {
-          deleteCell(row);
-        }}
-      >
-        Delete
-      </Button>
+        <Button
+          onClick={() => {
+            deleteCell(row);
+          }}
+        >
+          Delete
+        </Button>
 
       </div>
     );
   };
 
- 
+
 
   const columns = [{
     dataField: 'id',
@@ -58,7 +58,7 @@ export default function () {
     dataField: 'meal_date',
     text: 'Meal Date',
     sort: true
-  },{
+  }, {
     dataField: "id",
     text: "Edit / Delete",
     formatter: edit,
@@ -72,15 +72,15 @@ export default function () {
       });
   }, []);
 
-let totalCalories = 0;
-  const calculate =(meals)=>{
-    
-     meals.forEach((meal)=>{
+  let totalCalories = 0;
+  const calculate = (meals) => {
+
+    meals.forEach((meal) => {
       totalCalories += meal.calories;
-      console.log(totalCalories,'cal')
-    
-     })
-     console.log(totalCalories,'calories')
+      console.log(totalCalories, 'cal')
+
+    })
+    console.log(totalCalories, 'calories')
   }
 
   function logMeOut() {
@@ -88,21 +88,21 @@ let totalCalories = 0;
     setLoggedOut(true);
   }
 
-  const open = ()=>{
-     setValue({value:'Add'})
+  const open = () => {
+    setValue({ value: 'Add' })
     setAddEditModal(true);
   }
 
-  const handler = () =>{
+  const handler = () => {
     console.log('i am called')
-    getMeals().then(meals=>{
+    getMeals().then(meals => {
       setData(meals)
     })
     setAddEditModal(false);
   }
 
-  const deleteCell = (value) =>{
-    deleteMeal(value.user_id).then(()=>{
+  const deleteCell = (value) => {
+    deleteMeal(value.id).then(() => {
       handler();
     })
   }
@@ -114,19 +114,19 @@ let totalCalories = 0;
   }
 
   return (
-    <Container fluid style={{ padding: 60}}>
-      <h2 style={{ textAlign:'center' }}>Meal Activity for {getToken('username')}</h2>
-      <Button block size="lg" type="submit" style={{ marginTop: 40, float:"right",marginBottom:20 }} onClick={logMeOut}>
+    <Container fluid style={{ padding: 60 }}>
+      <h2 style={{ textAlign: 'center' }}>Meal Activity for {getToken('username')}</h2>
+      <Button block size="lg" type="submit" style={{ marginTop: 40, float: "right", marginBottom: 20 }} onClick={logMeOut}>
         LogOut
       </Button>
-      <div style = {totalCalories > 2000 ? {backgroundColor:"green"} : {backgroundColor :"red"}}>
-      <BootstrapTable keyField='id' data={data} columns={columns}/>
+      <div style={totalCalories > 2000 ? { backgroundColor: "green" } : { backgroundColor: "antiquewhite" }}>
+        <BootstrapTable keyField='id' data={data} columns={columns} />
       </div>
-       {!addEditModal ?  <Button block size="lg" style={{ marginTop: 40 }} onClick={open}>
+      {!addEditModal ? <Button block size="lg" style={{ marginTop: 40 }} onClick={open}>
         ADD
-      </Button>: ''}
-        
-        {addEditModal ? <AddMeal textValue = {value} handler = {handler}/>:''}
+      </Button> : ''}
+
+      {addEditModal ? <AddMeal textValue={value} handler={handler} /> : ''}
     </Container>
   );
 }

@@ -9,6 +9,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [goToSignUp, setGoToSignUp] = useState(false);
 
   function validateForm() {
     return email.length > 0 && password.length > 0;
@@ -27,18 +28,16 @@ export default function Login() {
     }
   }
 
-  const signUp = ()=>{
-    console.log('clicked')
-    return<Redirect to="/signUp"/>
-  }
-
   React.useEffect(() => {
-  }, [loggedIn]);
+  }, [loggedIn, goToSignUp]);
 
   if (getToken()) {
     return <Redirect to="/" />
   }
 
+  if (goToSignUp) {
+    return <Redirect to="/signUp"/>;
+  }
  
 
   return (
@@ -66,7 +65,7 @@ export default function Login() {
           Login
         </Button>
     
-        <Button block size="lg" style={{ marginTop: 40,marginLeft:20 }} onClick = {signUp}>
+        <Button block size="lg" style={{ marginTop: 40,marginLeft:20 }} onClick = {()=>setGoToSignUp(true)}>
           SignUp
         </Button>
       </Form>

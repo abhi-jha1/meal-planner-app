@@ -10,6 +10,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
+  const [goToLogin, setGoToLogin] = useState(false);
 
   function validateForm() {
     return username.length > 0 && email.length > 0 && password.length > 0;
@@ -31,6 +32,10 @@ export default function Login() {
 
   if (getToken()) {
     return <Redirect to="/" />
+  }
+
+  if (goToLogin) {
+    return <Redirect to="/login" />
   }
 
   return (
@@ -68,6 +73,10 @@ export default function Login() {
 
         <Button block size="lg" type="submit" style={{ marginTop: 40 }} disabled={!validateForm()}>
           Sign Up
+        </Button>
+
+        <Button block size="lg" type="submit" style={{ marginTop: 40, marginLeft: 40 }} onClick = {()=>setGoToLogin(true)}>
+          Back to Login
         </Button>
       </Form>
     </Container>
