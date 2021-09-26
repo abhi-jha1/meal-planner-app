@@ -30,6 +30,7 @@ module.exports = {
    * Also used as middleware to establish authentication
    */
   verifyAccessToken: (req, _, next) => {
+    console.log(req.headers.authorization,'headers')
     if (!req.headers.authorization) {
       return next(createError.Unauthorized());
     }

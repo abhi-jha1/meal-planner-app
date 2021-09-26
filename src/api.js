@@ -50,6 +50,66 @@ export function signup(payload) {
   })
 }
 
+export function addMeal(payload) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const options = {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getToken('token')}`
+        },
+        body: JSON.stringify(payload)
+      };
+      const resp = await (await fetch(`${API_HOST}/api/meals`, options)).json();
+      return resolve(resp);
+    } catch (error) {
+      return reject(error);
+    }
+  })
+}
+
+export function update(id,payload) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const options = {
+        method: 'PUT',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getToken('token')}`
+        },
+        body: JSON.stringify(payload)
+      };
+      const resp = await (await fetch(`${API_HOST}/api/meal/${id}`, options)).json();
+      return resolve(resp);
+    } catch (error) {
+      return reject(error);
+    }
+  })
+}
+
+export function deleteMeal(id) {
+  console.log(id,'id')
+  return new Promise(async (resolve, reject) => {
+    try {
+      const options = {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${getToken('token')}`
+        },
+      };
+      const resp = await (await fetch(`${API_HOST}/api/meal/${id}`, options)).json();
+      return resolve(resp);
+    } catch (error) {
+      return reject(error);
+    }
+  })
+}
+
 export function getMeals(params={}) {
   return new Promise(async (resolve, reject) => {
     try {

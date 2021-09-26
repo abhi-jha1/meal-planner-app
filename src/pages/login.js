@@ -27,12 +27,19 @@ export default function Login() {
     }
   }
 
+  const signUp = ()=>{
+    console.log('clicked')
+    return<Redirect to="/signUp"/>
+  }
+
   React.useEffect(() => {
   }, [loggedIn]);
 
   if (getToken()) {
     return <Redirect to="/" />
   }
+
+ 
 
   return (
     <Container fluid style={{ padding: 40 }}>
@@ -55,8 +62,12 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </Form.Group>
-        <Button block size="lg" type="submit" style={{ marginTop: 40 }} disabled={!validateForm()}>
+        <Button block size="lg" type="submit" style={{ marginTop: 40, marginRight:20}} disabled={!validateForm()}>
           Login
+        </Button>
+    
+        <Button block size="lg" style={{ marginTop: 40,marginLeft:20 }} onClick = {signUp}>
+          SignUp
         </Button>
       </Form>
     </Container>
